@@ -86,7 +86,7 @@ public class AdminController {
 
     /**
      * @author: Glei Jihed
-     * we use this endpoint to get ths list off minors players
+     * we use this endpoint to get the list off minors players
      * @return List<User>
      */
     @GetMapping(path="/filter/users/minors")

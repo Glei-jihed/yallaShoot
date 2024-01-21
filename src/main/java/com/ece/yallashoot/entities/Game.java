@@ -31,7 +31,7 @@ public class Game implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private CATEGORY  category;
+    private Category category;
 
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)

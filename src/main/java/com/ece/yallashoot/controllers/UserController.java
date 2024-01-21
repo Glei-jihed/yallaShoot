@@ -6,7 +6,6 @@ import com.ece.yallashoot.Services.UserService;
 import com.ece.yallashoot.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +14,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping(path = "/main")
-public class MainController {
+public class UserController {
 
 
     @Autowired
@@ -43,7 +42,7 @@ public class MainController {
 
     /**
      * @author: Glei jihed
-     * we can use this endpoint to delete  user
+     * we can use this endpoint to delete a specific user
      * @param user
      * @return List<User>
      */
@@ -58,7 +57,7 @@ public class MainController {
 
     /**
      * @author: Glei jihed
-     * we can use this endpoint to update a user
+     * the user can use this endpoint to update his data
      * @param user
      * @return User
      */

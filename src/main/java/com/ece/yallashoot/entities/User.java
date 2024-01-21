@@ -69,7 +69,10 @@ public class User implements UserDetails {
     @Column(unique = true, nullable = false, name = "phone")
     private String phone;
 
-    @Enumerated(EnumType.STRING)
+
+
+
+    @Enumerated(value = EnumType.STRING)
     private Role role;
 
     @Lob

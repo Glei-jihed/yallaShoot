@@ -1,6 +1,6 @@
 package com.ece.yallashoot.entities;
 
-public enum CATEGORY {
+public enum Category {
 
     FOOT,
     HAND,

@@ -22,7 +22,7 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
 
-    public AuthenticationResponse register(RegisterRequest request){
+    public AuthenticationResponse playerRegister(RegisterRequest request){
         var user = User.builder()
                 .id(request.getId())
                 .age(request.getAge())
@@ -33,6 +33,27 @@ public class AuthenticationService {
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(Role.PLAYER)
+                .build();
+
+        repository.save(user);
+        var jwtToken = jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
+
+    public AuthenticationResponse organizerRegister(RegisterRequest request){
+        var user = User.builder()
+                .id(request.getId())
+                .age(request.getAge())
+                .phone(request.getPhone())
+                .profilePicture(request.getProfilePicture())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.ORGANIZER)
                 .build();
 
         repository.save(user);

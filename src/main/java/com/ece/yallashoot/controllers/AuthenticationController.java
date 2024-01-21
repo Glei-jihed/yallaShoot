@@ -16,21 +16,39 @@ public class AuthenticationController {
 
     /**
      * @author: Glei jihed
-     * we use this endpoint to register
+     * we use this endpoint to register as a player
      * @param request
      * @return AuthenticationResponse
      */
-    @PostMapping(path = "/register")
-    public ResponseEntity<AuthenticationResponse> register(
+    @PostMapping(path = "/player/register")
+    public ResponseEntity<AuthenticationResponse> playerRegister(
             @RequestBody RegisterRequest request
     ){
-        return ResponseEntity.ok(authenticationService.register(request));
+        return ResponseEntity.ok(authenticationService.playerRegister(request));
     }
+
 
 
     /**
      * @author: Glei jihed
-     * we use this endpoint to connect user and get a token which will be used to access
+     * we use this endpoint to register as an organizer
+     * @param request
+     * @return AuthenticationResponse
+     */
+    @PostMapping(path = "/organizer/register")
+    public ResponseEntity<AuthenticationResponse> organizerRegister(
+            @RequestBody RegisterRequest request
+    ){
+        return ResponseEntity.ok(authenticationService.organizerRegister(request));
+    }
+
+
+
+
+
+    /**
+     * @author: Glei jihed
+     * we use this endpoint to authenticate user and get a token which will be used to access
      * @param request
      * @return token
      */
