@@ -2,101 +2,87 @@ package com.ece.yallashoot.entities;
 
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
-import java.sql.Date;
+import java.util.Date;
 import java.util.Set;
 
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "user",
+        indexes = {
+                @Index(name = "idx_id", columnList = "id"),
+                @Index(name = "idx_age", columnList = "age"),
+                @Index(name = "idx_first_name", columnList = "first_name"),
+                @Index(name = "idx_last_name", columnList = "last_name"),
+                @Index(name = "idx_phone", columnList = "phone"),
+                @Index(name = "idx_email", columnList = "email")
+})
 public class User implements Serializable {
 
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(generator = "uuid2")
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    private String id;
+
+
+    @Column(name = "first_name", nullable = false)
     private String firstName;
+
+
+    @Column(name = "last_name", nullable = false)
     private String lastName;
+
+
+    @Column(name = "age", nullable = false)
     private int age;
+
+
+    @Temporal(TemporalType.DATE)
     private Date inscriptionDate;
+
+
+    @Column(unique = true, name = "email", nullable = false)
     private String email;
+
+
     private String password;
+
+
     private boolean connected;
+
+
+    @Column(unique = true, nullable = false, name = "phone")
     private String phone;
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE},fetch = FetchType.EAGER)
-    private Set<Role> roles;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
+
+    @Lob
+    private byte[] profilePicture;
 
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
-    private  Set<Game> games;
+    private Set<Game> games;
 
-    public Long getId() {
-        return id;
+    //========================== PrePersist methods ====================================================================
+
+    @PrePersist
+    private void onCreateDate() {
+        this.inscriptionDate = new Date();
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    //===========================PreUpdate methods =====================================================================
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public boolean isConnected() {
-        return connected;
-    }
-
-    public void setConnected(boolean connected) {
-        this.connected = connected;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
 }

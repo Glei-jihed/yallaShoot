@@ -44,12 +44,11 @@ public class UserServiceImplementation implements UserService{
     }
 
     @Override
-    public ResponseEntity<User> findUserById(User user) {
-        Optional<User> optionalUser = userRepository.findById(user.getId());
-        if (optionalUser.isEmpty()){
-            return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<User>(HttpStatus.OK);
+    public Optional<User> findById(String id) {
+
+        Optional<User> optionalUser = userRepository.findById(id);
+        return optionalUser;
+
     }
 
 
@@ -93,13 +92,6 @@ public class UserServiceImplementation implements UserService{
     }
 
     @Override
-    public List<User> findByEmail(String email) {
-
-        return userRepository.findByEmail(email);
-
-    }
-
-    @Override
     public List<User> findByInscriptionDateIsAfter(Date date) {
 
         return userRepository.findByInscriptionDateIsAfter(date);
@@ -112,5 +104,21 @@ public class UserServiceImplementation implements UserService{
         return userRepository.findByInscriptionDate(date);
 
     }
+
+    @Override
+    public List<User> findByAgeBefore(int age) {
+        return userRepository.findByAgeBefore(18);
+    }
+
+    @Override
+    public List<User> findByAgeAfter(int age) {
+        return userRepository.findByAgeAfter(25);
+    }
+
+    @Override
+    public List<User> findByAgeBetween(int min, int max) {
+        return userRepository.findByAgeBetween(18,25);
+    }
+
 
 }

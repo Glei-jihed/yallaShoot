@@ -6,26 +6,35 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User,String> {
+
+
+    Optional<User> findByEmail(String email);
+
 
     //============================== Filtres admine ==============
-    public List<User> findByFirstName(String firstName);
+    List<User> findByFirstName(String firstName);
 
-    public List<User> findByConnected(boolean connected);
+    List<User> findByConnected(boolean connected);
 
-    public List<User> findByLastName(String lastName);
+    List<User> findByLastName(String lastName);
 
-    public List<User> findByFirstNameAndLastName(String firstName, String lastName);
+    List<User> findByFirstNameAndLastName(String firstName, String lastName);
 
-    public List<User> findByEmail(String email);
 
-    public List<User>  findByInscriptionDateIsAfter(Date date);
 
-    public List<User> findByInscriptionDate(Date date);
+    List<User>  findByInscriptionDateIsAfter(Date date);
 
+    List<User> findByInscriptionDate(Date date);
+
+    List<User> findByAgeBefore(int age);
+    List<User> findByAgeAfter(int age);
+
+    List<User> findByAgeBetween(int min, int max);
 
 
 

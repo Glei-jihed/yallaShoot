@@ -6,35 +6,42 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
 
+    User userCreation(User user);
+    ResponseEntity<List<User>> findAll();
 
-    public User userCreation(User user);
-    public ResponseEntity<List<User>> findAll();
+    List<User> userDelete(User user);
 
-    public List<User> userDelete(User user);
+    Optional<User> findById(String id);
 
-    public ResponseEntity<User> findUserById(User user);
+    User updateUser(User user);
 
-    public User updateUser(User user);
+
 
 
     //===================================== Filtres admin ==============================================================
 
-    public List<User> findByConnected(boolean connected);
+    List<User> findByConnected(boolean connected);
 
-    public List<User> findByLastName(String lastName);
+    List<User> findByLastName(String lastName);
 
-    public List<User> findByFirstName(String firstName);
+    List<User> findByFirstName(String firstName);
 
-    public List<User> findByFirstNameAndLastName(String firstName, String lastName);
+    List<User> findByFirstNameAndLastName(String firstName, String lastName);
 
-    public List<User> findByEmail(String email);
+    List<User>  findByInscriptionDateIsAfter(Date date);
 
-    public List<User>  findByInscriptionDateIsAfter(Date date);
+    List<User> findByInscriptionDate(Date date);
 
-    public List<User> findByInscriptionDate(Date date);
+    List<User> findByAgeBefore(int age);
+
+    List<User> findByAgeAfter(int age);
+
+    List<User> findByAgeBetween(int min, int max);
+
 
 
 }
