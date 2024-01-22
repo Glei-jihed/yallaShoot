@@ -89,7 +89,7 @@ public class User implements UserDetails {
     @PrePersist
     private void onCreateDate() {
         this.inscriptionDate = new Date();
-        this.connected=true;
+
     }
 
 
