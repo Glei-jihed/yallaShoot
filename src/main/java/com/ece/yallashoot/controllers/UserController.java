@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+
+
+@CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/main")
 public class UserController {
@@ -24,20 +27,7 @@ public class UserController {
     private GameService gameService;
 
 
-    /**
-     * @author: Glei jihed
-     * we can use this endpoint to find a specific user by the id
-     * @param id
-     * @return User
-     */
-    @GetMapping(path = "/users/{id}")
-    public ResponseEntity<User> findUserById(@PathVariable String id){
-        Optional<User> optionalUser = userService.findById(id);
-        if (optionalUser.isEmpty()){
-            return new ResponseEntity<User>(HttpStatus.NO_CONTENT);
-        }
-        return new ResponseEntity<User>(HttpStatus.OK);
-    }
+
 
 
     /**
@@ -67,6 +57,8 @@ public class UserController {
         return userService.updateUser(user);
     }
 
+
+    //==================================         Game functions       ==================================================
 
 
 

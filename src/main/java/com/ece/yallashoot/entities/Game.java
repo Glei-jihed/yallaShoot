@@ -10,13 +10,15 @@ import org.hibernate.annotations.GenericGenerator;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.Set;
 
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "game")
+@Table(name = "game",indexes = {@Index(name = "date_idx",columnList = "date"),
+                                @Index(name = "lat_idx",columnList = "category"),})
 public class Game implements Serializable {
 
 
@@ -35,7 +37,26 @@ public class Game implements Serializable {
 
 
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+
     private Location location;
+
+
+    @Column(nullable = false)
+    private int playersNumber;
+
+
+    @Column(nullable = false)
+    private int requiredPlayers;
+
+
+    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.EAGER)
+    private Set<User> players;
+
+
+    @PrePersist
+    public void playersCount(){
+        this.requiredPlayers =  playersNumber - players.size();
+    }
 
 
 }

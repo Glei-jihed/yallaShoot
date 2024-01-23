@@ -19,10 +19,7 @@ public class UserServiceImplementation implements UserService{
     @Autowired
     private UserRepository userRepository;
 
-    @Override
-    public User userCreation(User user) {
-        return userRepository.save(user);
-    }
+
 
     @Override
     public ResponseEntity<List<User>> findAll() {
@@ -98,12 +95,7 @@ public class UserServiceImplementation implements UserService{
 
     }
 
-    @Override
-    public List<User> findByInscriptionDate(Date date) {
 
-        return userRepository.findByInscriptionDate(date);
-
-    }
 
     @Override
     public List<User> findByAgeBefore(int age) {
@@ -118,6 +110,11 @@ public class UserServiceImplementation implements UserService{
     @Override
     public List<User> findByAgeBetween(int min, int max) {
         return userRepository.findByAgeBetween(18,25);
+    }
+
+    @Override
+    public List<User> findByFirstNameOrLastNameLike(String keyword) {
+        return userRepository.findByFirstNameOrLastNameLike(keyword);
     }
 
 

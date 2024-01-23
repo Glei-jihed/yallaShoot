@@ -10,7 +10,8 @@ import java.util.Optional;
 
 public interface UserService {
 
-    User userCreation(User user);
+
+
     ResponseEntity<List<User>> findAll();
 
     List<User> userDelete(User user);
@@ -34,13 +35,15 @@ public interface UserService {
 
     List<User>  findByInscriptionDateIsAfter(Date date);
 
-    List<User> findByInscriptionDate(Date date);
+
 
     List<User> findByAgeBefore(int age);
 
     List<User> findByAgeAfter(int age);
 
     List<User> findByAgeBetween(int min, int max);
+
+    List<User> findByFirstNameOrLastNameLike(String keyword);
 
 
 

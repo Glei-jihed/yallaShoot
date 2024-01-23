@@ -71,7 +71,6 @@ public class User implements UserDetails {
 
 
 
-
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
