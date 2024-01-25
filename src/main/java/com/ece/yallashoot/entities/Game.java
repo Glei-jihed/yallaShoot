@@ -54,8 +54,22 @@ public class Game implements Serializable {
     @Column(nullable = false)
     private int requiredPlayers;
 
-    @OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
-    private Location location;
+    @Column(nullable = false)
+    private double latitude;
+
+    @Column(nullable = false)
+    private double longitude;
+
+    @Column(nullable = false)
+    private String Ville;
+
+    @Column(nullable = false)
+
+    private int postalCode;
+
+
+    /* @OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
+    private Location location; */
 
     @OneToOne()
     private User founder;

@@ -24,9 +24,10 @@ public interface GameRepository extends JpaRepository<Game,String> {
 
 
 
-    //public List<Game> findGameByFounderId(String id);
 
-    //public List<Game> findGameByLocationId(String id);
+
+
+
 
 
 

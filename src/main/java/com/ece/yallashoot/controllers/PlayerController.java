@@ -4,6 +4,7 @@ package com.ece.yallashoot.controllers;
 import com.ece.yallashoot.Services.AuthenticationService;
 import com.ece.yallashoot.Services.GameService;
 import com.ece.yallashoot.Services.UserService;
+import com.ece.yallashoot.entities.Category;
 import com.ece.yallashoot.entities.Game;
 import com.ece.yallashoot.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,7 +22,7 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/api/player")
-public class UserController {
+public class PlayerController {
 
 
     @Autowired
@@ -91,6 +93,38 @@ public class UserController {
         return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
 
     }
+
+
+    @GetMapping(path="/Games/tunis/{category}")
+    public ResponseEntity<List<Game>> findGamesByCategory(@PathVariable Category category){
+        List<Game> games = gameService.findGamesByCategory(category);
+        if(games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+    }
+
+    @GetMapping(path="/games/date")
+    public ResponseEntity<List<Game>> findGamesByDate(@RequestBody Date date){
+        List<Game> games = gameService.findGamesByDate(date);
+        if (games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+    }
+
+
+    @GetMapping(path="/games/afterDate")
+    public ResponseEntity<List<Game>> findGamesByDateAfter(@RequestBody Date date){
+        List<Game> games = gameService.findGameByDateAfter(date);
+        if (games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+    }
+
+
+
 
 
 
