@@ -7,6 +7,7 @@ import com.ece.yallashoot.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -22,9 +23,8 @@ public class GameServiceImplementation implements GameService{
     private UserRepository userRepository;
 
 
-
-
-
-
-
+    @Override
+    public List<Game> findAllGames() {
+        return gameRepository.findAll();
+    }
 }

@@ -4,8 +4,11 @@ package com.ece.yallashoot.controllers;
 import com.ece.yallashoot.Services.AuthenticationService;
 import com.ece.yallashoot.Services.GameService;
 import com.ece.yallashoot.Services.UserService;
+import com.ece.yallashoot.entities.Game;
 import com.ece.yallashoot.entities.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,6 +55,7 @@ public class UserController {
 
 
 
+
     /**
      * @author: Glei jihed
      * the user can use this endpoint to update his data
@@ -76,7 +80,17 @@ public class UserController {
 
     //==================================         Game functions       ==================================================
 
+    @GetMapping(path="/games")
+    public ResponseEntity<List<Game>> findAllGames(){
+        List<Game> games = gameService.findAllGames();
 
+        if (games.isEmpty()){
+            return new ResponseEntity<List<Game>>(HttpStatusCode.valueOf(404));
+        }
+
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+
+    }
 
 
 
