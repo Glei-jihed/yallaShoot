@@ -5,11 +5,7 @@ import com.ece.yallashoot.Services.AuthenticationService;
 import com.ece.yallashoot.Services.GameService;
 import com.ece.yallashoot.Services.UserService;
 import com.ece.yallashoot.entities.User;
-import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -38,12 +34,7 @@ public class UserController {
 
     @GetMapping("/user/{id}")
     public Optional<User> findUserById(@PathVariable String id){
-        Optional<User> user = userService.findById(id);
-        if (user.isEmpty()){
-            return null;
-        }
-        Optional<User> user1 = Optional.of(user.get());
-        return user1;
+        return userService.findById(id);
     }
 
     /**
