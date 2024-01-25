@@ -16,7 +16,7 @@ import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(path = "/api/v1/auth/")
+@RequestMapping(path = "/api/player")
 public class UserController {
 
 
