@@ -21,4 +21,6 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin(origins = "http://localhost:3000")
 public class AuthenticationResponse {
     private String token;
+    private String id;
+    private String role;
 }
