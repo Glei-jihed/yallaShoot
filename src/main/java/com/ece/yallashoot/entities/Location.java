@@ -13,7 +13,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-@Table(name = "location")
 @Data
 @Builder
 @NoArgsConstructor
@@ -23,7 +22,7 @@ public class Location implements Serializable {
 
     @Id
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GenericGenerator(name = "uuid2",strategy = "uuid2")
     private String id;
 
     @Column(nullable = false)
@@ -35,9 +34,11 @@ public class Location implements Serializable {
     @Column(nullable = false)
     private double longitude;
 
-    @OneToMany
+    @OneToMany()
     @JsonBackReference
-    private Set<Game> game;
+    private Set<Game> games;
+
+
 
 
 

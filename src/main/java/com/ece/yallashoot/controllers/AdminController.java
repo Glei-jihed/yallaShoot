@@ -3,6 +3,7 @@ package com.ece.yallashoot.controllers;
 
 import com.ece.yallashoot.Services.UserService;
 import com.ece.yallashoot.entities.User;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 
-
+@Log
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(path="/admin")
+@RequestMapping(path="/api/admin")
 public class AdminController {
 
 
@@ -24,6 +25,10 @@ public class AdminController {
 
 
 
+    @GetMapping("/test")
+    public String test(){
+        return "Jihed";
+    }
 
     /**
      * @author: Glei jihed
@@ -32,6 +37,8 @@ public class AdminController {
      */
     @GetMapping(path = "/users")
     public ResponseEntity<List<User>> findAll(){
+
+        log.info("liste utisliate");
         return userService.findAll();
     }
 

@@ -61,6 +61,17 @@ public class UserServiceImplementation implements UserService{
         }
     }
 
+    @Override
+    public User logoutUser(User user) {
+
+
+        Optional<User> user2 = findById(user.getId());
+        if (user2.isEmpty()){
+            return  null;
+        }
+        user2.get().setConnected(false);
+        return userRepository.save(user2.get());
+    }
 
 
     //=============== Filtres Admin ====================================================================================

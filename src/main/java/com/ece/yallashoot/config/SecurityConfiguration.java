@@ -1,5 +1,6 @@
 package com.ece.yallashoot.config;
 
+import com.ece.yallashoot.entities.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,6 +26,9 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests()
                 .requestMatchers("/api/v1/auth/**")
                 .permitAll()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/player/**").hasRole("PLAYER")
+                .requestMatchers("/api/org/**").hasRole("ORGANIZER")
                 .anyRequest()
                 .authenticated()
                 .and()

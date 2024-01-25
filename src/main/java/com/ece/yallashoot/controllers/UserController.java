@@ -1,11 +1,14 @@
 package com.ece.yallashoot.controllers;
 
 
+import com.ece.yallashoot.Services.AuthenticationService;
 import com.ece.yallashoot.Services.GameService;
 import com.ece.yallashoot.Services.UserService;
 import com.ece.yallashoot.entities.User;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +17,10 @@ import java.util.Optional;
 
 
 
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
-@RequestMapping(path = "/main")
+@RequestMapping(path = "/api/v1/auth/")
 public class UserController {
 
 
@@ -25,6 +29,10 @@ public class UserController {
 
     @Autowired
     private GameService gameService;
+
+
+    @Autowired
+    private AuthenticationService authenticationService;
 
 
 
@@ -56,6 +64,15 @@ public class UserController {
     {
         return userService.updateUser(user);
     }
+
+
+    @PatchMapping(path="/logout")
+    public User logout(@RequestBody User user){
+        //log.info(user.getId());
+        return userService.logoutUser(user);
+
+    }
+
 
 
     //==================================         Game functions       ==================================================

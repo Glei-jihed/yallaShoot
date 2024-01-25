@@ -1,5 +1,4 @@
-FROM openjdk:21
-
+FROM openjdk:17
 
 CMD ["mvn", "clean", "install"]
 
@@ -12,3 +11,4 @@ RUN chmod +x /app/wait-for-it.sh
 WORKDIR /app
 
 CMD ["java", "-jar", "yallaShoot.jar"]
+

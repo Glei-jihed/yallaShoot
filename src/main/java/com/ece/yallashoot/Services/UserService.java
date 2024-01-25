@@ -20,6 +20,8 @@ public interface UserService {
 
     User updateUser(User user);
 
+    User logoutUser(User user);
+
 
 
 

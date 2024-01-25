@@ -18,7 +18,8 @@ public interface UserRepository extends JpaRepository<User,String> {
     Optional<User> findByEmail(String email);
 
 
-    //============================== Filtres admine ==============
+
+    //============================== Filtres admine ====================================================================
     List<User> findByFirstName(String firstName);
 
     List<User> findByConnected(boolean connected);
@@ -37,6 +38,10 @@ public interface UserRepository extends JpaRepository<User,String> {
 
     @Query("SELECT u FROM User u WHERE u.firstName LIKE %:keyword% OR u.lastName LIKE %:keyword%")
     List<User> findByFirstNameOrLastNameLike(@Param("keyword") String keyword);
+
+
+
+
 
 
 }

@@ -1,7 +1,7 @@
 package com.ece.yallashoot.entities;
 
 public enum Role {
-    ADMIN,
-    ORGANIZER,
-    PLAYER
+    ROLE_ADMIN,
+    ROLE_ORGANIZER,
+    ROLE_PLAYER
 }

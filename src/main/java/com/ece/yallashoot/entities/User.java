@@ -11,7 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.io.Serializable;
+
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -22,7 +22,7 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "user",
+@Table(
         indexes = {
                 @Index(name = "idx_id", columnList = "id"),
                 @Index(name = "idx_age", columnList = "age"),
@@ -36,7 +36,7 @@ public class User implements UserDetails {
 
     @Id
     @GeneratedValue(generator = "uuid2")
-    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GenericGenerator(name = "uuid2",strategy = "uuid2")
     private String id;
 
 
@@ -70,16 +70,27 @@ public class User implements UserDetails {
     private String phone;
 
 
-
     @Enumerated(value = EnumType.STRING)
     private Role role;
 
     @Lob
     private byte[] profilePicture;
 
-
-    @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch = FetchType.EAGER)
     private Set<Game> games;
+
+
+    @OneToMany(cascade={CascadeType.PERSIST,CascadeType.MERGE,CascadeType.REMOVE},fetch=FetchType.EAGER)
+    private Set<Request> requests;
+
+
+
+
+
+
+
+
+
 
     //========================== PrePersist methods ====================================================================
 
@@ -94,8 +105,10 @@ public class User implements UserDetails {
 
 
     //==================================================================================================================
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
@@ -130,7 +143,7 @@ public class User implements UserDetails {
     }
 
 
-    //===========================PreUpdate methods =====================================================================
+    //=========================== PreUpdate methods ====================================================================
 
 
 }

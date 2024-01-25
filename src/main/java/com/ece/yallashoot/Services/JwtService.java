@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Log
 @Service
 public class JwtService {
 
+    /*@Value("${application.security.jwt.expiration}")
+    private long jwtExpiration;*/
     private static final KeyPair keyPair = Keys.keyPairFor(SignatureAlgorithm.ES256);
     public String extractUsername(String token){
         return extractClaim(token, Claims::getSubject);
@@ -35,7 +40,7 @@ public class JwtService {
                 .setClaims(extraClaims)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000*60*24))
                 .signWith(keyPair.getPrivate(), SignatureAlgorithm.ES256)
                 .compact();
     }
@@ -55,6 +60,7 @@ public class JwtService {
     }
 
     private Claims extractAllClaims(String token) {
+        log.info(token);
         return Jwts.parserBuilder()
                 .setSigningKey(keyPair.getPublic())
                 .build()
