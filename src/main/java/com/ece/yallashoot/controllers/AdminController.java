@@ -25,10 +25,7 @@ public class AdminController {
 
 
 
-    @GetMapping("/test")
-    public String test(){
-        return "Jihed";
-    }
+
 
     /**
      * @author: Glei jihed

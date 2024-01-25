@@ -36,7 +36,15 @@ public class UserController {
 
 
 
-
+    @GetMapping("/user/{id}")
+    public Optional<User> findUserById(@PathVariable String id){
+        Optional<User> user = userService.findById(id);
+        if (user.isEmpty()){
+            return null;
+        }
+        Optional<User> user1 = Optional.of(user.get());
+        return user1;
+    }
 
     /**
      * @author: Glei jihed
