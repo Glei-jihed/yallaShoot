@@ -152,6 +152,16 @@ public class OrganizerController {
 
     }
 
+    @GetMapping(path = "/organizer/games/{id}")
+    public ResponseEntity<List<Game>> findMyGames(String id){
+        List<Game> myGames = gameService.findGameByFounderId(id);
+        if (myGames.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<List<Game>>(myGames,HttpStatusCode.valueOf(200));
+    }
+
+
 
 
 }
