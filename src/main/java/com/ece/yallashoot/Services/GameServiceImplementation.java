@@ -31,6 +31,13 @@ public class GameServiceImplementation implements GameService{
     }
 
     @Override
+    public Game findGameById(String id) {
+       return  gameRepository.findGameById(id);
+
+
+    }
+
+    @Override
     public List<Game> findGamesByCategory(Category category) {
         return gameRepository.findGameByCategory(category);
     }

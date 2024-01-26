@@ -140,7 +140,7 @@ public class OrganizerController {
     }
 
 
-    @DeleteMapping(path = "/delete/game/{id]")
+    @DeleteMapping(path = "/delete/game/{id}")
     public Game dropGame(@PathVariable String id){
         Optional<Game> game = Optional.ofNullable(gameRepository.findGameById(id));
 
@@ -152,6 +152,8 @@ public class OrganizerController {
 
     }
 
+
+
     @GetMapping(path = "/organizer/games/{id}")
     public ResponseEntity<List<Game>> findMyGames(String id){
         List<Game> myGames = gameService.findGameByFounderId(id);
@@ -162,6 +164,7 @@ public class OrganizerController {
     }
 
 
+    
 
 
 }

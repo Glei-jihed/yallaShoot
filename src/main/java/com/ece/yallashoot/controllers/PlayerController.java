@@ -6,7 +6,9 @@ import com.ece.yallashoot.Services.GameService;
 import com.ece.yallashoot.Services.UserService;
 import com.ece.yallashoot.entities.Category;
 import com.ece.yallashoot.entities.Game;
+import com.ece.yallashoot.entities.Request;
 import com.ece.yallashoot.entities.User;
+import com.ece.yallashoot.repositories.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +32,9 @@ public class PlayerController {
 
     @Autowired
     private GameService gameService;
+
+    @Autowired
+    private RequestRepository requestRepository;
 
 
     @Autowired
@@ -124,6 +129,22 @@ public class PlayerController {
     }
 
 
+    @PostMapping(path="/send/request/{idGame}/{idPlayer}")
+    public ResponseEntity<Request> sendRequest(@PathVariable String idGame,String idPlayer,@RequestBody Request request){
+        Game game = gameService.findGameById(idGame);
+        if (game == null){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        Optional<User> user = userService.findById(game.getFounder().getId());
+        if ( user.isEmpty() ){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+
+        Optional<User> player = userService.findById(idPlayer);
+        request.setPlayer(player.get());
+        request.setRequestedGame(game);
+        return new ResponseEntity<Request>(requestRepository.save(request),HttpStatusCode.valueOf(200));
+    }
 
 
 
