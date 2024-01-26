@@ -9,9 +9,11 @@ import com.ece.yallashoot.entities.User;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -175,9 +177,13 @@ public class AdminController {
         return new ResponseEntity<List<User>>(users,HttpStatus.OK);
     }
 
-    @GetMapping(path="/games")
-    public List<Game> findAllGames(){
-        return gameService.findAllGames();
+    @GetMapping(path="/games/date")
+    public ResponseEntity<List<Game>> findGamesByDate(@RequestBody Date date){
+        List<Game> games = gameService.findGamesByDate(date);
+        if (games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
     }
 
 
