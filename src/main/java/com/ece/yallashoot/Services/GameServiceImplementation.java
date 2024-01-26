@@ -44,4 +44,29 @@ public class GameServiceImplementation implements GameService{
     public List<Game> findGameByDateAfter(Date date) {
         return gameRepository.findGameByDateAfter(date);
     }
+
+    @Override
+    public List<Game> findByLatitudeAndLongitudeInterval(Double minLat, Double maxLat, Double minLon, Double maxLon) {
+        return gameRepository.findByLatitudeAndLongitudeInterval(minLat,maxLat,minLon,maxLon);
+    }
+
+    @Override
+    public List<Game> findGameByPostalCode(int postalCode) {
+        return gameRepository.findGameByPostalCode(postalCode);
+    }
+
+    @Override
+    public List<Game> findGameByCity(String city) {
+        return gameRepository.findGameByCity(city);
+    }
+
+    @Override
+    public List<Game> findGameByFounderId(String id) {
+        return gameRepository.findGameByFounderId(id);
+    }
+
+    @Override
+    public void deleteGameById(String id) {
+
+    }
 }

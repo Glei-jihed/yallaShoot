@@ -20,8 +20,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Table(indexes = {@Index(name = "date_idx",columnList = "date"),
                                 @Index(name = "cat_idx",columnList = "category"),
-                                @Index(name="loc_idx",columnList = "location_id"),
-                                @Index(name="loc_idx",columnList = "founder_id")})
+                                @Index(name="founder_idx",columnList = "founder_id"),
+                                @Index(name = "city_idx",columnList = "city"),
+                                @Index(name = "postal_code_idx",columnList = "postal_code"),})
 public class Game implements Serializable {
 
 
@@ -61,15 +62,14 @@ public class Game implements Serializable {
     private double longitude;
 
     @Column(nullable = false)
-    private String Ville;
+    private String city;
 
     @Column(nullable = false)
 
     private int postalCode;
 
 
-    /* @OneToOne(cascade={CascadeType.PERSIST,CascadeType.MERGE},fetch = FetchType.EAGER)
-    private Location location; */
+
 
     @OneToOne()
     private User founder;

@@ -1,6 +1,8 @@
 package com.ece.yallashoot.controllers;
 
 
+import com.ece.yallashoot.Services.GameService;
+import com.ece.yallashoot.Services.RequestService;
 import com.ece.yallashoot.Services.UserService;
 import com.ece.yallashoot.entities.User;
 import lombok.extern.java.Log;
@@ -22,6 +24,14 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
+
+    @Autowired
+    private GameService gameService;
+
+    @Autowired
+    private RequestService requestService;
+
 
 
 
