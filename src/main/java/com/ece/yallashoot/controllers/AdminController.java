@@ -4,6 +4,7 @@ package com.ece.yallashoot.controllers;
 import com.ece.yallashoot.Services.GameService;
 import com.ece.yallashoot.Services.RequestService;
 import com.ece.yallashoot.Services.UserService;
+import com.ece.yallashoot.entities.Game;
 import com.ece.yallashoot.entities.User;
 import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -172,6 +173,11 @@ public class AdminController {
             return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
         }
         return new ResponseEntity<List<User>>(users,HttpStatus.OK);
+    }
+
+    @GetMapping(path="/games")
+    public List<Game> findAllGames(){
+        return gameService.findAllGames();
     }
 
 
