@@ -87,6 +87,7 @@ public class Game implements Serializable {
     @PrePersist
     public void playersCount(){
         this.requiredPlayers =  playersNumber - registredPlayers;
+
     }
 
 

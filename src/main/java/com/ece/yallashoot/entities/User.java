@@ -101,6 +101,7 @@ public class User implements UserDetails {
         this.inscriptionDate = new Date();
 
     }
+    //=========================== PreUpdate methods ====================================================================
 
 
 
@@ -143,7 +144,7 @@ public class User implements UserDetails {
     }
 
 
-    //=========================== PreUpdate methods ====================================================================
+
 
 
 }

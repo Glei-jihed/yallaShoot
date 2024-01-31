@@ -28,7 +28,7 @@ public class SecurityConfiguration {
                 .permitAll()
                 .requestMatchers("/api/admin/**").hasRole("ADMIN")
                 .requestMatchers("/api/player/**").hasRole("PLAYER")
-                .requestMatchers("/api/org/**").hasRole("ORGANIZER")
+                .requestMatchers("/api/organizer/**").hasRole("ORGANIZER")
                 .anyRequest()
                 .authenticated()
                 .and()

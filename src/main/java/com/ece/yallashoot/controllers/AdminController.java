@@ -1,8 +1,8 @@
 package com.ece.yallashoot.controllers;
 
 
+import com.ece.yallashoot.Services.AuthenticationService;
 import com.ece.yallashoot.Services.GameService;
-import com.ece.yallashoot.Services.RequestService;
 import com.ece.yallashoot.Services.UserService;
 import com.ece.yallashoot.entities.Game;
 import com.ece.yallashoot.entities.User;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 
 
 @Log
@@ -32,12 +31,41 @@ public class AdminController {
     @Autowired
     private GameService gameService;
 
+
     @Autowired
-    private RequestService requestService;
+    private  AuthenticationService authenticationService;
 
 
 
 
+
+    /**
+     * @author: Glei jihed
+     * we use this endpoint to register as an organizer
+     * @param request
+     * @return AuthenticationResponse
+     */
+    @PostMapping(path = "/register")
+    public ResponseEntity<AuthenticationResponse> adminRegister(
+            @RequestBody RegisterRequest request
+    ){
+        return ResponseEntity.ok(authenticationService.adminRegister(request));
+    }
+
+    /**
+     * @author: Glei Jihed
+     * @param user
+     * @return
+     */
+
+    @PatchMapping(path="/logout")
+    public User logout(@RequestBody User user){
+        //log.info(user.getId());
+        return userService.logoutUser(user);
+
+    }
+
+    //==================================================================================================================
 
 
     /**
@@ -70,8 +98,7 @@ public class AdminController {
 
 
 
-    //============================== Admin filters =====================================================================
-
+    //============================== Admin filters for users ===========================================================
 
     /**
      * @author: Glei Jihed
@@ -162,6 +189,8 @@ public class AdminController {
 
 
 
+
+
     /**
      * @author: Glei Jihed
      * we use this end point to find the users with last name or last name like a string
@@ -177,6 +206,17 @@ public class AdminController {
         return new ResponseEntity<List<User>>(users,HttpStatus.OK);
     }
 
+
+
+
+    //============================== Admin filters for games ===========================================================
+
+    /**
+     * @author: Glei Jihed
+     * we use this endpoint to get the list of games by a date
+     * @param date
+     * @return List<Game>
+     *     */
     @GetMapping(path="/games/date")
     public ResponseEntity<List<Game>> findGamesByDate(@RequestBody Date date){
         List<Game> games = gameService.findGamesByDate(date);

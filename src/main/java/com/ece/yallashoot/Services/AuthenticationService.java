@@ -64,6 +64,29 @@ public class AuthenticationService {
                 .build();
     }
 
+    public AuthenticationResponse adminRegister(RegisterRequest request){
+        var user = User.builder()
+                .id(request.getId())
+                .age(request.getAge())
+                .phone(request.getPhone())
+                .profilePicture(request.getProfilePicture())
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword()))
+                .role(Role.ROLE_ADMIN)
+                .build();
+
+        repository.save(user);
+        var jwtToken = jwtService.generateToken(user);
+
+        return AuthenticationResponse.builder()
+                .token(jwtToken)
+                .build();
+    }
+
+
+
     public AuthenticationResponse authenticate(AuthenticationRequest request){
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(),request.getPassword()));
         var user = repository.findByEmail(request.getEmail())
