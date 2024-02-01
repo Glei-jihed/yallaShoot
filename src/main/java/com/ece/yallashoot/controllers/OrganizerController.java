@@ -31,16 +31,16 @@ public class OrganizerController {
     public RequestService requestService;
 
     @Autowired
-
     public UserService userService;
 
-
-    @Autowired
-    private AuthenticationService authenticationService;
     @Autowired
     private UserRepository userRepository;
+
     @Autowired
     private GameRepository gameRepository;
+
+
+
 
     @GetMapping("/user/{id}")
     public Optional<User> findUserById(@PathVariable String id){
@@ -85,7 +85,7 @@ public class OrganizerController {
 
 
 
-    //==================================         Game functions       ==================================================
+    //==================================         Games list       ==================================================
 
     @GetMapping(path="/games")
     public ResponseEntity<List<Game>> findAllGames(){
@@ -100,7 +100,10 @@ public class OrganizerController {
     }
 
 
-    @GetMapping(path="/Games/tunis/{category}")
+    //====================================== Game filters ==============================================================
+
+
+    @GetMapping(path="/Games/{category}")
     public ResponseEntity<List<Game>> findGamesByCategory(@PathVariable Category category){
         List<Game> games = gameService.findGamesByCategory(category);
         if(games.isEmpty()){
@@ -136,7 +139,6 @@ public class OrganizerController {
             return null;
         }
         return userRepository.save(user);
-
     }
 
 
@@ -153,9 +155,8 @@ public class OrganizerController {
     }
 
 
-
     @GetMapping(path = "/organizer/games/{id}")
-    public ResponseEntity<List<Game>> findMyGames(String id){
+    public ResponseEntity<List<Game>> findGameByFounderId(@PathVariable String id){
         List<Game> myGames = gameService.findGameByFounderId(id);
         if (myGames.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
@@ -164,7 +165,24 @@ public class OrganizerController {
     }
 
 
-    
+    @GetMapping(path="/games/{city}")
+    public ResponseEntity<List<Game>> findGamesByCity(@PathVariable String city){
+        List<Game> games = gameService.findGameByCity(city);
+        if (games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+    }
+
+
+    @GetMapping(path="/games/{postalCode}")
+    public ResponseEntity<List<Game>> findGamesByPostalCode(@PathVariable int postalCode){
+        List<Game> games = gameService.findGameByPostalCode(postalCode);
+        if (games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+    }
 
 
 }

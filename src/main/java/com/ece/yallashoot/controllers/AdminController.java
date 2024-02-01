@@ -4,6 +4,7 @@ package com.ece.yallashoot.controllers;
 import com.ece.yallashoot.Services.AuthenticationService;
 import com.ece.yallashoot.Services.GameService;
 import com.ece.yallashoot.Services.UserService;
+import com.ece.yallashoot.entities.Category;
 import com.ece.yallashoot.entities.Game;
 import com.ece.yallashoot.entities.User;
 import lombok.extern.java.Log;
@@ -211,15 +212,41 @@ public class AdminController {
 
     //============================== Admin filters for games ===========================================================
 
-    /**
-     * @author: Glei Jihed
-     * we use this endpoint to get the list of games by a date
-     * @param date
-     * @return List<Game>
-     *     */
+    @GetMapping(path="/games")
+    public ResponseEntity<List<Game>> findAllGames(){
+        List<Game> games = gameService.findAllGames();
+
+        if (games.isEmpty()){
+            return new ResponseEntity<List<Game>>(HttpStatusCode.valueOf(404));
+        }
+
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+
+    }
+
+
+    @GetMapping(path="/Games/tunis/{category}")
+    public ResponseEntity<List<Game>> findGamesByCategory(@PathVariable Category category){
+        List<Game> games = gameService.findGamesByCategory(category);
+        if(games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+    }
+
     @GetMapping(path="/games/date")
     public ResponseEntity<List<Game>> findGamesByDate(@RequestBody Date date){
         List<Game> games = gameService.findGamesByDate(date);
+        if (games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+    }
+
+
+    @GetMapping(path="/games/afterDate")
+    public ResponseEntity<List<Game>> findGamesByDateAfter(@RequestBody Date date){
+        List<Game> games = gameService.findGameByDateAfter(date);
         if (games.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }

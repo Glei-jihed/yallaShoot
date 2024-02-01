@@ -85,7 +85,7 @@ public class PlayerController {
 
 
 
-    //==================================         Game functions       ==================================================
+    //==================================         Game filters       ==================================================
 
     @GetMapping(path="/games")
     public ResponseEntity<List<Game>> findAllGames(){
@@ -100,7 +100,7 @@ public class PlayerController {
     }
 
 
-    @GetMapping(path="/Games/tunis/{category}")
+    @GetMapping(path="/games/{category}")
     public ResponseEntity<List<Game>> findGamesByCategory(@PathVariable Category category){
         List<Game> games = gameService.findGamesByCategory(category);
         if(games.isEmpty()){
@@ -129,22 +129,26 @@ public class PlayerController {
     }
 
 
-    @PostMapping(path="/send/request/{idGame}/{idPlayer}")
-    public ResponseEntity<Request> sendRequest(@PathVariable String idGame,String idPlayer,@RequestBody Request request){
-        Game game = gameService.findGameById(idGame);
-        if (game == null){
+    @GetMapping(path="/games/{city}")
+    public ResponseEntity<List<Game>> findGamesByCity(@PathVariable String city){
+        List<Game> games = gameService.findGameByCity(city);
+        if (games.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
-        Optional<User> user = userService.findById(game.getFounder().getId());
-        if ( user.isEmpty() ){
-            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
-        }
-
-        Optional<User> player = userService.findById(idPlayer);
-        request.setPlayer(player.get());
-        request.setRequestedGame(game);
-        return new ResponseEntity<Request>(requestRepository.save(request),HttpStatusCode.valueOf(200));
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
     }
+
+
+    @GetMapping(path="/games/{postalCode}")
+    public ResponseEntity<List<Game>> findGamesByPostalCode(@PathVariable int postalCode){
+        List<Game> games = gameService.findGameByPostalCode(postalCode);
+        if (games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+    }
+
+
 
 
 
