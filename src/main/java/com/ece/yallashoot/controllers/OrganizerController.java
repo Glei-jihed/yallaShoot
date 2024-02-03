@@ -61,7 +61,7 @@ public class OrganizerController {
      * @author: Glei jihed
      * we can use this endpoint to delete a specific user
      * @param user the body must contain the user data
-     * @return this end point will return the data of deleted user
+     * @return this endpoint will return the data of deleted user
      */
     @DeleteMapping(path="/user/drop")
     public List<User> userDelete(@RequestBody User user){
@@ -89,7 +89,7 @@ public class OrganizerController {
     /**
      * @author: Glei jihed
      * @param user we must give all the data of user
-     * this end point will make the connected boolean to false and
+     * this endpoint will make the connected boolean to false and
      */
     @PatchMapping(path="/logout")
     public User logout(@RequestBody User user){
@@ -102,9 +102,9 @@ public class OrganizerController {
 
     /**
      * @author: Glei jihed
-     * we use this end point to create a new game
+     * we use this endpoint to create a new game
      * @param user we will give the user data that contain the games data
-     * @return User this end point will return an updated user
+     * @return User this endpoint will return an updated user
      */
     @PatchMapping(path = "/create/game")
     public User createGame(@RequestBody User user){
@@ -115,11 +115,11 @@ public class OrganizerController {
 
     /**
      * @author: Glei Jihed
-     * we use this end point to sens a join request for a specific game
+     * we use this endpoint to sens a join request for a specific game
      * @param gameId we must give the id of game
      * @param playerId we must give the id of the player
      * @param request1 this json must contain the node and the id(auto) of the request
-     * @return this end point will return a Request
+     * @return this endpoint will return a Request
      */
     @PostMapping(path="sendRequest/{gameId}/{playerId}")
     public ResponseEntity<Request> sendRequest(@PathVariable String gameId, @PathVariable String playerId, @RequestBody Request request1){
@@ -142,7 +142,7 @@ public class OrganizerController {
 
     /**
      * @author: Glei Jihed
-     * this end point will delete a request
+     * this endpoint will delete a request
      * @param requestId we must give the id of a request
      */
     @DeleteMapping(path = "delete/request/{requestId}")
@@ -152,9 +152,9 @@ public class OrganizerController {
 
     /**
      * @author: Glei jihed
-     * we use this end point to accept a join request
+     * we use this endpoint to accept a join request
      * @param requestId we must give the id of the request
-     * @return this end point will return a request
+     * @return this endpoint will return a request
      */
     @PatchMapping(path = "/accept/request/{requestId}")
     public Request acceptRequest(@PathVariable String requestId){
@@ -167,9 +167,9 @@ public class OrganizerController {
 
     /**
      * @author: Glei Jihed
-     * we use this end point to refuse a request
+     * we use this endpoint to refuse a request
      * @param requestId we must give the id of the request
-     * @return this end point will return a request
+     * @return this endpoint will return a request
      */
     @PatchMapping(path = "/refuse/request/{requestId}")
     public Request refuseRequest(@PathVariable String requestId){
@@ -187,8 +187,8 @@ public class OrganizerController {
 
     /**
      * @author: Glei Jihed
-     * we use this end point to get the list of all the games saved  in our DB
-     * @return this end point will return a list of games
+     * we use this endpoint to get the list of all the games saved  in our DB
+     * @return this endpoint will return a list of games
      */
     @GetMapping(path="/games")
     public ResponseEntity<List<Game>> findAllGames(){
@@ -207,9 +207,9 @@ public class OrganizerController {
 
     /**
      * @author: Glei Jihed
-     * we use this end point to get a list of games by category
+     * we use this endpoint to get a list of games by category
      * @param category we must give a valid category
-     * @return this end point wil return a list of games
+     * @return this endpoint wil return a list of games
      */
     @GetMapping(path="/games/{category}")
     public ResponseEntity<List<Game>> findGamesByCategory(@PathVariable Category category){
@@ -220,12 +220,25 @@ public class OrganizerController {
         return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
+    /**
+     * @author: Glei Jihed
+     * we use this endpoint to get a specific game by the id
+     * @param id we must give the game id
+     * @return this end point will return a game or null
+     */
+    @GetMapping(path = "game/{id}")
+    public Game findGameById(@PathVariable String id){
+        Optional<Game> game = Optional.ofNullable(gameService.findGameById(id));
+        return game.orElse(null);
+    }
+
+
 
     /**
      * @author: glei jihed
-     * we use this end point to get a list of games by the date
+     * we use this endpoint to get a list of games by the date
      * @param date we must give a specific date
-     * @return this end point will return a list of games
+     * @return this endpoint will return a list of games
      */
     @GetMapping(path="/games/date")
     public ResponseEntity<List<Game>> findGamesByDate(@RequestBody Date date){
@@ -238,9 +251,9 @@ public class OrganizerController {
 
     /**
      * @author: Glei Jihed
-     * we use this end point to get the list of games organized after a specific date
+     * we use this endpoint to get the list of games organized after a specific date
      * @param date we must give a date
-     * @return this end point will return a list of games
+     * @return this endpoint will return a list of games
      */
     @GetMapping(path="/games/afterDate")
     public ResponseEntity<List<Game>> findGamesByDateAfter(@RequestBody Date date){
@@ -254,9 +267,9 @@ public class OrganizerController {
 
     /**
      * @author: Glei Jihed
-     * we use this end point to delete a game by the id
+     * we use this endpoint to delete a game by the id
      * @param id we must give the id
-     * @return this end point will return the deleted game
+     * @return this endpoint will return the deleted game
      */
     @DeleteMapping(path = "/delete/game/{id}")
     public Game dropGame(@PathVariable String id){
@@ -272,9 +285,9 @@ public class OrganizerController {
 
     /**
      * @author: Glei jihed
-     * we use this end point to get the list of games organized by a user
+     * we use this endpoint to get the list of games organized by a user
      * @param id we must give an id of an organizer
-     * @return this end point will return a list of games organized by an organizer
+     * @return this endpoint will return a list of games organized by an organizer
      */
     @GetMapping(path = "/organizer/games/{id}")
     public ResponseEntity<List<Game>> findGameByFounderId(@PathVariable String id){
@@ -287,9 +300,9 @@ public class OrganizerController {
 
     /**
      * @author: Glei jihed
-     * we use this end point to get all the games in a specific city
+     * we use this endpoint to get all the games in a specific city
      * @param city we must give the city
-     * @return this end point wil return a list of games
+     * @return this endpoint wil return a list of games
      */
     @GetMapping(path="/games/{city}")
     public ResponseEntity<List<Game>> findGamesByCity(@PathVariable String city){
@@ -302,9 +315,9 @@ public class OrganizerController {
 
     /**
      * @author: Glei jihed
-     * we use this end point to find all the game that have a specific postal code
+     * we use this endpoint to find all the game that have a specific postal code
      * @param postalCode we must give an integer
-     * @return this end point will return a list of games that have the postal code
+     * @return this endpoint will return a list of games that have the postal code
      */
     @GetMapping(path="/games/{postalCode}")
     public ResponseEntity<List<Game>> findGamesByPostalCode(@PathVariable int postalCode){
@@ -315,7 +328,38 @@ public class OrganizerController {
         return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
+    //================================== Request get ===================================================================
 
+    /**
+     * @author: Glei Jihed
+     * we use this end point to get all the request for a specific game
+     * @param gameId we must give the id of the game
+     * @return this endpoint will return a list of requests
+     */
+    @GetMapping(path = "/get/request/{gameId}")
+    public ResponseEntity<List<Request>> findRequestByRequestedGameId(@PathVariable String gameId){
+        List<Request> requests = requestService.findRequestByRequestedGameId(gameId);
+        if (requests.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<>(requests, HttpStatusCode.valueOf(200));
+    }
+
+
+    /**
+     * @author: Glei Jihed
+     * we use this end point to get all the requests executed by a specific user
+     * @param playerId we must give the id of the player
+     * @return this endpoint will return a list of requests
+     */
+    @GetMapping(path = "/get/request/{playerId}")
+    public ResponseEntity<List<Request>> findRequestByPlayerId(@PathVariable String playerId){
+        List<Request> requests = requestService.findRequestByPlayerId(playerId);
+        if (requests.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<>(requests, HttpStatusCode.valueOf(200));
+    }
 
 
 }

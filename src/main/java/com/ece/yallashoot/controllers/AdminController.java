@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 
 @Log
@@ -57,7 +58,7 @@ public class AdminController {
 
     /**
      * @author: Glei Jihed
-     * we use this end point to log out
+     * we use this endpoint to log out
      * @param user we must give an object that contain the user data
      */
     @PatchMapping(path="/logout")
@@ -72,8 +73,8 @@ public class AdminController {
 
     /**
      * @author: Glei jihed
-     * we can use this function to display  all users in our db
-     * @return User
+     * we can use this endpoint to display  all users in our db
+     * @return this end point will return the list of all users in our DB
      */
     @GetMapping(path = "/users")
     public ResponseEntity<List<User>> findAll(){
@@ -87,9 +88,9 @@ public class AdminController {
 
     /**
      * @author: Glei Jihed
-     * we can use this function to delete a specific user
+     * we can use this endpoint to delete a specific user
      * @param user we must give an object that contain the data of a user
-     * @return will return a list of users
+     * @return this endpoint will return a list of users
      */
     @DeleteMapping(path="/user/drop")
     public List<User> userDelete(@RequestBody User user){
@@ -105,7 +106,7 @@ public class AdminController {
     /**
      * @author: Glei Jihed
      * we can use this endpoint to get all the connected users
-     * @return List<User>
+     * @return this endpoint will return a list of connected users
      */
     @GetMapping(path="/filter/users/connected")
     public ResponseEntity<List<User>> findUsersConnected(){
@@ -123,7 +124,7 @@ public class AdminController {
     /**
      * @author: Glei Jihed
      * we use this endpoint to get the list off minors players
-     * @return List<User>
+     * @return this endpoint will return a list of users
      */
     @GetMapping(path="/filter/users/minors")
     public ResponseEntity<List<User>> findMinorsList(){
@@ -139,7 +140,7 @@ public class AdminController {
     /**
      * @author: Glei Jihed
      * we use this endpoint to get ths list off  players between 18 and 25
-     * @return List<User>
+     * @return this endpoint will return a list of users
      */
     @GetMapping(path="/filter/users/majors")
     public ResponseEntity<List<User>> findTeenList(){
@@ -156,7 +157,7 @@ public class AdminController {
     /**
      * @author: Glei Jihed
      * we use this endpoint to get ths list off adult players
-     * @return List<User>
+     * @return this endpoint will return a lit of users
      */
     @GetMapping(path="/users/adults")
     public ResponseEntity<List<User>> findAdultsList(){
@@ -172,9 +173,9 @@ public class AdminController {
 
     /**
      * @author: Glei Jihed
-     * we can use this function get the user or the list of users by the firstname
+     * we can use this endpoint get the user or the list of users by the firstname
      * @param firstName we can give a firstname
-     * @return List<User>
+     * @return this endpoint will return a list of users
      */
     @GetMapping(path="/users/byFirstName/{firstName}")
     public ResponseEntity<List<User>> findUserByFirstName(@PathVariable String firstName){
@@ -195,7 +196,7 @@ public class AdminController {
 
     /**
      * @author: Glei Jihed
-     * we use this end point to find the users with last name or last name like a string
+     * we use this endpoint to find the users with last name or last name like a string
      * @param keyword can give any string
      * @return list of users
      */
@@ -213,10 +214,21 @@ public class AdminController {
 
     //============================== Admin filters for games ===========================================================
 
+    /**
+     * @author: Glei Jihed
+     * we use this endpoint to get a specific game by the id
+     * @param id we must give the game id
+     * @return this end point will return a game or null
+     */
+    @GetMapping(path = "game/{id}")
+    public Game findGameById(@PathVariable String id){
+        Optional<Game> game = Optional.ofNullable(gameService.findGameById(id));
+        return game.orElse(null);
+    }
 
     /**
      * @author: Glei Jihed
-     * We use this end point to get the list of all games in the DB
+     * We use this endpoint to get the list of all games in the DB
      */
     @GetMapping(path="/games")
     public ResponseEntity<List<Game>> findAllGames(){
@@ -233,7 +245,7 @@ public class AdminController {
 
     /**
      * @author: Glei Jihed
-     * We use this end point to get the games  by the category
+     * We use this endpoint to get the games  by the category
      * @param category we must give a true category
      * @return our function will return a  list of games
      */
@@ -249,9 +261,9 @@ public class AdminController {
 
     /**
      * @author: Glei Jihed
-     * we use this end point to get the games by the Date
+     * we use this endpoint to get the games by the Date
      * @param date we must give a valid date
-     * @return our end point will return a list of games
+     * @return our endpoint will return a list of games
      */
     @GetMapping(path="/games/date")
     public ResponseEntity<List<Game>> findGamesByDate(@RequestBody Date date){
@@ -265,9 +277,9 @@ public class AdminController {
 
     /**
      * @author: Glei Jihed
-     * we use this end point to get all the games organized after a specific Date
+     * we use this endpoint to get all the games organized after a specific Date
      * @param date we must give a valid date
-     * @return our end point will return a list of games
+     * @return our endpoint will return a list of games
      */
     @GetMapping(path="/games/afterDate")
     public ResponseEntity<List<Game>> findGamesByDateAfter(@RequestBody Date date){
