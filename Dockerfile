@@ -2,13 +2,9 @@ FROM openjdk:17
 
 CMD ["mvn", "clean", "install"]
 
-COPY target/*jar /app/yallaShoot.jar
-
-COPY wait-for-it.sh /app/wait-for-it.sh
-
-RUN chmod +x /app/wait-for-it.sh
+COPY target/yallaShoot-0.0.1-SNAPSHOT.jar /app/yallaShoot-0.0.1-SNAPSHOT.jar
 
 WORKDIR /app
 
-CMD ["java", "-jar", "yallaShoot.jar"]
+CMD ["java", "-jar", "yallaShoot-0.0.1-SNAPSHOT"]
 
