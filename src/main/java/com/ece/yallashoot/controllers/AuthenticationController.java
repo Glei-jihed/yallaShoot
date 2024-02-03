@@ -16,7 +16,7 @@ public class AuthenticationController {
     /**
      * @author: Glei jihed
      * we use this endpoint to register as a player
-     * @param request
+     * @param request this request contain the user details
      * @return AuthenticationResponse
      */
     @PostMapping(path = "/player/register")
@@ -31,7 +31,7 @@ public class AuthenticationController {
     /**
      * @author: Glei jihed
      * we use this endpoint to register as an organizer
-     * @param request
+     * @param request this request contain the user details
      * @return AuthenticationResponse
      */
     @PostMapping(path = "/organizer/register")
@@ -41,12 +41,7 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.organizerRegister(request));
     }
 
-    @PostMapping(path = "/admin/register")
-    public ResponseEntity<AuthenticationResponse> adminRegister(
-            @RequestBody RegisterRequest request
-    ){
-        return ResponseEntity.ok(authenticationService.adminRegister(request));
-    }
+
 
 
 
@@ -55,7 +50,7 @@ public class AuthenticationController {
     /**
      * @author: Glei jihed
      * we use this endpoint to authenticate user and get a token which will be used to access
-     * @param request
+     * @param request this request contain the user details
      * @return token
      */
     @PostMapping(path = "/authenticate")

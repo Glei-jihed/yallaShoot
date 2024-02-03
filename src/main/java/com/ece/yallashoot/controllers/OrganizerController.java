@@ -1,7 +1,7 @@
 package com.ece.yallashoot.controllers;
 
 
-import com.ece.yallashoot.Services.AuthenticationService;
+
 import com.ece.yallashoot.Services.GameService;
 import com.ece.yallashoot.Services.RequestService;
 import com.ece.yallashoot.Services.UserService;
@@ -60,8 +60,8 @@ public class OrganizerController {
     /**
      * @author: Glei jihed
      * we can use this endpoint to delete a specific user
-     * @param user
-     * @return List<User>
+     * @param user the body must contain the user data
+     * @return this end point will return the data of deleted user
      */
     @DeleteMapping(path="/user/drop")
     public List<User> userDelete(@RequestBody User user){
@@ -76,7 +76,7 @@ public class OrganizerController {
     /**
      * @author: Glei jihed
      * the user can use this endpoint to update his data
-     * @param user
+     * @param user we must send a user data
      * @return User
      */
     @PatchMapping(path="/update")
@@ -86,6 +86,11 @@ public class OrganizerController {
     }
 
 
+    /**
+     * @author: Glei jihed
+     * @param user we must give all the data of user
+     * this end point will make the connected boolean to false and
+     */
     @PatchMapping(path="/logout")
     public User logout(@RequestBody User user){
         log.info(user.getId());
@@ -94,29 +99,63 @@ public class OrganizerController {
     }
 
 
+
+    /**
+     * @author: Glei jihed
+     * we use this end point to create a new game
+     * @param user we will give the user data that contain the games data
+     * @return User this end point will return an updated user
+     */
     @PatchMapping(path = "/create/game")
     public User createGame(@RequestBody User user){
 
         return userRepository.save(user);
     }
 
+
+    /**
+     * @author: Glei Jihed
+     * we use this end point to sens a join request for a specific game
+     * @param gameId we must give the id of game
+     * @param playerId we must give the id of the player
+     * @param request1 this json must contain the node and the id(auto) of the request
+     * @return this end point will return a Request
+     */
     @PostMapping(path="sendRequest/{gameId}/{playerId}")
-    public Request sendRequest(@PathVariable String gameId, @PathVariable String playerId, @RequestBody Request request1){
+    public ResponseEntity<Request> sendRequest(@PathVariable String gameId, @PathVariable String playerId, @RequestBody Request request1){
         Game game = gameService.findGameById(gameId);
+        if(game == null){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
         Request request = new Request();
+
         request.setRequestedGame(game);
         Optional<User> user = userService.findById(playerId);
+        if(user.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
         request.setPlayer(user.get());
         request.setNote(request1.getNote());
-        return requestRepository.save(request);
+        return new ResponseEntity<>(requestRepository.save(request),HttpStatusCode.valueOf(200));
     }
 
+
+    /**
+     * @author: Glei Jihed
+     * this end point will delete a request
+     * @param requestId we must give the id of a request
+     */
     @DeleteMapping(path = "delete/request/{requestId}")
     public void deleteRequest(@PathVariable String requestId){
         requestRepository.deleteById(requestId);
     }
 
-
+    /**
+     * @author: Glei jihed
+     * we use this end point to accept a join request
+     * @param requestId we must give the id of the request
+     * @return this end point will return a request
+     */
     @PatchMapping(path = "/accept/request/{requestId}")
     public Request acceptRequest(@PathVariable String requestId){
         Request request = requestRepository.findRequestById(requestId);
@@ -125,6 +164,13 @@ public class OrganizerController {
         return requestRepository.save(request);
     }
 
+
+    /**
+     * @author: Glei Jihed
+     * we use this end point to refuse a request
+     * @param requestId we must give the id of the request
+     * @return this end point will return a request
+     */
     @PatchMapping(path = "/refuse/request/{requestId}")
     public Request refuseRequest(@PathVariable String requestId){
         Request request = requestRepository.findRequestById(requestId);
@@ -138,54 +184,80 @@ public class OrganizerController {
 
     //==================================         Games list       ==================================================
 
+
+    /**
+     * @author: Glei Jihed
+     * we use this end point to get the list of all the games saved  in our DB
+     * @return this end point will return a list of games
+     */
     @GetMapping(path="/games")
     public ResponseEntity<List<Game>> findAllGames(){
         List<Game> games = gameService.findAllGames();
 
         if (games.isEmpty()){
-            return new ResponseEntity<List<Game>>(HttpStatusCode.valueOf(404));
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
 
-        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
 
     }
 
 
     //====================================== Game filters ==============================================================
 
-
+    /**
+     * @author: Glei Jihed
+     * we use this end point to get a list of games by category
+     * @param category we must give a valid category
+     * @return this end point wil return a list of games
+     */
     @GetMapping(path="/games/{category}")
     public ResponseEntity<List<Game>> findGamesByCategory(@PathVariable Category category){
         List<Game> games = gameService.findGamesByCategory(category);
         if(games.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
-        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
+
+    /**
+     * @author: glei jihed
+     * we use this end point to get a list of games by the date
+     * @param date we must give a specific date
+     * @return this end point will return a list of games
+     */
     @GetMapping(path="/games/date")
     public ResponseEntity<List<Game>> findGamesByDate(@RequestBody Date date){
         List<Game> games = gameService.findGamesByDate(date);
         if (games.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
-        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
-
+    /**
+     * @author: Glei Jihed
+     * we use this end point to get the list of games organized after a specific date
+     * @param date we must give a date
+     * @return this end point will return a list of games
+     */
     @GetMapping(path="/games/afterDate")
     public ResponseEntity<List<Game>> findGamesByDateAfter(@RequestBody Date date){
         List<Game> games = gameService.findGameByDateAfter(date);
         if (games.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
-        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
 
-
-
-
+    /**
+     * @author: Glei Jihed
+     * we use this end point to delete a game by the id
+     * @param id we must give the id
+     * @return this end point will return the deleted game
+     */
     @DeleteMapping(path = "/delete/game/{id}")
     public Game dropGame(@PathVariable String id){
         Optional<Game> game = Optional.ofNullable(gameRepository.findGameById(id));
@@ -198,34 +270,49 @@ public class OrganizerController {
 
     }
 
-
+    /**
+     * @author: Glei jihed
+     * we use this end point to get the list of games organized by a user
+     * @param id we must give an id of an organizer
+     * @return this end point will return a list of games organized by an organizer
+     */
     @GetMapping(path = "/organizer/games/{id}")
     public ResponseEntity<List<Game>> findGameByFounderId(@PathVariable String id){
         List<Game> myGames = gameService.findGameByFounderId(id);
         if (myGames.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
-        return new ResponseEntity<List<Game>>(myGames,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(myGames,HttpStatusCode.valueOf(200));
     }
 
-
+    /**
+     * @author: Glei jihed
+     * we use this end point to get all the games in a specific city
+     * @param city we must give the city
+     * @return this end point wil return a list of games
+     */
     @GetMapping(path="/games/{city}")
     public ResponseEntity<List<Game>> findGamesByCity(@PathVariable String city){
         List<Game> games = gameService.findGameByCity(city);
         if (games.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
-        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
-
+    /**
+     * @author: Glei jihed
+     * we use this end point to find all the game that have a specific postal code
+     * @param postalCode we must give an integer
+     * @return this end point will return a list of games that have the postal code
+     */
     @GetMapping(path="/games/{postalCode}")
     public ResponseEntity<List<Game>> findGamesByPostalCode(@PathVariable int postalCode){
         List<Game> games = gameService.findGameByPostalCode(postalCode);
         if (games.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
-        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
 

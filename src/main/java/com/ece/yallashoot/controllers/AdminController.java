@@ -42,8 +42,7 @@ public class AdminController {
 
     /**
      * @author: Glei jihed
-     * we use this endpoint to register as an organizer
-     * @param request
+     * we use this endpoint to add a new Admin
      * @return AuthenticationResponse
      */
     @PostMapping(path = "/register")
@@ -53,12 +52,14 @@ public class AdminController {
         return ResponseEntity.ok(authenticationService.adminRegister(request));
     }
 
+
+
+
     /**
      * @author: Glei Jihed
-     * @param user
-     * @return
+     * we use this end point to log out
+     * @param user we must give an object that contain the user data
      */
-
     @PatchMapping(path="/logout")
     public User logout(@RequestBody User user){
         log.info(user.getId());
@@ -71,7 +72,7 @@ public class AdminController {
 
     /**
      * @author: Glei jihed
-     * we can use this function to display the of all users in our db
+     * we can use this function to display  all users in our db
      * @return User
      */
     @GetMapping(path = "/users")
@@ -87,8 +88,8 @@ public class AdminController {
     /**
      * @author: Glei Jihed
      * we can use this function to delete a specific user
-     * @param user
-     * @return List<User>
+     * @param user we must give an object that contain the data of a user
+     * @return will return a list of users
      */
     @DeleteMapping(path="/user/drop")
     public List<User> userDelete(@RequestBody User user){
@@ -110,10 +111,10 @@ public class AdminController {
     public ResponseEntity<List<User>> findUsersConnected(){
         List<User> users = userService.findByConnected(true);
         if (users.isEmpty()){
-            return new ResponseEntity<List<User>>(users, HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
 
-        return new ResponseEntity<List<User>>(users,HttpStatus.OK);
+        return new ResponseEntity<>(users,HttpStatus.OK);
     }
 
 
@@ -128,9 +129,9 @@ public class AdminController {
     public ResponseEntity<List<User>> findMinorsList(){
         List<User> users = userService.findByAgeBefore(18);
         if (users.isEmpty()){
-            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<User>>(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
@@ -144,9 +145,9 @@ public class AdminController {
     public ResponseEntity<List<User>> findTeenList(){
         List<User> users = userService.findByAgeBetween(18,25);
         if (users.isEmpty()){
-            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<User>>(HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 
@@ -161,9 +162,9 @@ public class AdminController {
     public ResponseEntity<List<User>> findAdultsList(){
         List<User> users = userService.findByAgeAfter(25);
         if (users.isEmpty()){
-            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<User>>(HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 
@@ -172,7 +173,7 @@ public class AdminController {
     /**
      * @author: Glei Jihed
      * we can use this function get the user or the list of users by the firstname
-     * @param firstName
+     * @param firstName we can give a firstname
      * @return List<User>
      */
     @GetMapping(path="/users/byFirstName/{firstName}")
@@ -180,10 +181,10 @@ public class AdminController {
       List<User> users =  userService.findByFirstName(firstName);
 
       if (users.isEmpty()){
-          return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
       }
 
-      return new ResponseEntity<List<User>>(users,HttpStatus.OK);
+      return new ResponseEntity<>(users,HttpStatus.OK);
     }
 
 
@@ -195,16 +196,16 @@ public class AdminController {
     /**
      * @author: Glei Jihed
      * we use this end point to find the users with last name or last name like a string
-     * @param keyword
-     * @return List<User>
+     * @param keyword can give any string
+     * @return list of users
      */
-    @GetMapping(path = "/user/byFirstNameOrLAstNameLike")
+    @GetMapping(path = "/user/byFirstNameOrLAstNameLike/{keyword}")
     public ResponseEntity<List<User>> findUserByFirstNameOrLastNameLike(@PathVariable String keyword){
         List<User> users = userService.findByFirstNameOrLastNameLike(keyword);
         if(users.isEmpty()){
-            return new ResponseEntity<List<User>>(HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<List<User>>(users,HttpStatus.OK);
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
 
@@ -212,45 +213,69 @@ public class AdminController {
 
     //============================== Admin filters for games ===========================================================
 
+
+    /**
+     * @author: Glei Jihed
+     * We use this end point to get the list of all games in the DB
+     */
     @GetMapping(path="/games")
     public ResponseEntity<List<Game>> findAllGames(){
         List<Game> games = gameService.findAllGames();
 
         if (games.isEmpty()){
-            return new ResponseEntity<List<Game>>(HttpStatusCode.valueOf(404));
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
 
-        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(games, HttpStatusCode.valueOf(200));
 
     }
 
 
-    @GetMapping(path="/Games/tunis/{category}")
+    /**
+     * @author: Glei Jihed
+     * We use this end point to get the games  by the category
+     * @param category we must give a true category
+     * @return our function will return a  list of games
+     */
+    @GetMapping(path="/Games/{category}")
     public ResponseEntity<List<Game>> findGamesByCategory(@PathVariable Category category){
         List<Game> games = gameService.findGamesByCategory(category);
         if(games.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
-        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
+
+    /**
+     * @author: Glei Jihed
+     * we use this end point to get the games by the Date
+     * @param date we must give a valid date
+     * @return our end point will return a list of games
+     */
     @GetMapping(path="/games/date")
     public ResponseEntity<List<Game>> findGamesByDate(@RequestBody Date date){
         List<Game> games = gameService.findGamesByDate(date);
         if (games.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
-        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
 
+    /**
+     * @author: Glei Jihed
+     * we use this end point to get all the games organized after a specific Date
+     * @param date we must give a valid date
+     * @return our end point will return a list of games
+     */
     @GetMapping(path="/games/afterDate")
     public ResponseEntity<List<Game>> findGamesByDateAfter(@RequestBody Date date){
         List<Game> games = gameService.findGameByDateAfter(date);
         if (games.isEmpty()){
             return new ResponseEntity<>(HttpStatusCode.valueOf(404));
         }
-        return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
+        return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
 

@@ -14,21 +14,21 @@ public interface GameRepository extends JpaRepository<Game,String> {
 
 
 
-    public void deleteGameById(String id);
+     void deleteGameById(String id);
 
-    public Game findGameById(String id);
+     Game findGameById(String id);
 
-    public List<Game> findGameByCategory(Category category);
+     List<Game> findGameByCategory(Category category);
 
-    public List<Game> findGameByDate(Date date);
+     List<Game> findGameByDate(Date date);
 
-    public List<Game> findGameByFounderId(String id);
+     List<Game> findGameByFounderId(String id);
 
-    public List<Game> findGameByDateAfter(Date date);
+     List<Game> findGameByDateAfter(Date date);
 
-    public List<Game> findGameByPostalCode(int postalCode);
+     List<Game> findGameByPostalCode(int postalCode);
 
-    public List<Game> findGameByCity(String city);
+     List<Game> findGameByCity(String city);
 
     @Query("SELECT g FROM Game g WHERE g.latitude BETWEEN :minLat AND :maxLat AND g.longitude BETWEEN :minLon AND :maxLon")
     List<Game> findByLatitudeAndLongitudeInterval(@Param("minLat") Double minLat, @Param("maxLat") Double maxLat,
