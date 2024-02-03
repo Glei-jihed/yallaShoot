@@ -61,7 +61,7 @@ public class AdminController {
 
     @PatchMapping(path="/logout")
     public User logout(@RequestBody User user){
-        //log.info(user.getId());
+        log.info(user.getId());
         return userService.logoutUser(user);
 
     }

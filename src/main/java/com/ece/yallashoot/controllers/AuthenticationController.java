@@ -41,6 +41,13 @@ public class AuthenticationController {
         return ResponseEntity.ok(authenticationService.organizerRegister(request));
     }
 
+    @PostMapping(path = "/admin/register")
+    public ResponseEntity<AuthenticationResponse> adminRegister(
+            @RequestBody RegisterRequest request
+    ){
+        return ResponseEntity.ok(authenticationService.adminRegister(request));
+    }
+
 
 
 

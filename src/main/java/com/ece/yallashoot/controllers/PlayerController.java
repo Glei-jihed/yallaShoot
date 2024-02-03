@@ -61,8 +61,6 @@ public class PlayerController {
     }
 
 
-
-
     /**
      * @author: Glei jihed
      * the user can use this endpoint to update his data
@@ -83,6 +81,23 @@ public class PlayerController {
 
     }
 
+
+    @PostMapping(path="sendRequest/{gameId}/{playerId}")
+    public Request sendRequest(@PathVariable String gameId,@PathVariable String playerId,@RequestBody Request request1){
+        Game game = gameService.findGameById(gameId);
+        Request request = new Request();
+        request.setRequestedGame(game);
+        Optional<User> user = userService.findById(playerId);
+        request.setPlayer(user.get());
+        request.setNote(request1.getNote());
+        return requestRepository.save(request);
+    }
+
+
+    @DeleteMapping(path = "delete/request/{requestId}")
+    public void deleteRequest(@PathVariable String requestId){
+        requestRepository.deleteById(requestId);
+    }
 
 
     //==================================         Game filters       ==================================================

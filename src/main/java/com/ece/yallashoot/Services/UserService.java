@@ -22,6 +22,8 @@ public interface UserService {
 
     User logoutUser(User user);
 
+    User createGame(User user);
+
 
 
 

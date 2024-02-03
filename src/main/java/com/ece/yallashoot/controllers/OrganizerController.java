@@ -7,9 +7,12 @@ import com.ece.yallashoot.Services.RequestService;
 import com.ece.yallashoot.Services.UserService;
 import com.ece.yallashoot.entities.Category;
 import com.ece.yallashoot.entities.Game;
+import com.ece.yallashoot.entities.Request;
 import com.ece.yallashoot.entities.User;
 import com.ece.yallashoot.repositories.GameRepository;
+import com.ece.yallashoot.repositories.RequestRepository;
 import com.ece.yallashoot.repositories.UserRepository;
+import lombok.extern.java.Log;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -21,6 +24,7 @@ import java.util.Optional;
 
 
 @CrossOrigin(origins="http://localhost:3000")
+@Log
 @RestController
 @RequestMapping(path="/api/organizer")
 public class OrganizerController {
@@ -40,6 +44,10 @@ public class OrganizerController {
 
     @Autowired
     private GameRepository gameRepository;
+
+
+    @Autowired
+    private RequestRepository requestRepository;
 
 
 
@@ -80,9 +88,50 @@ public class OrganizerController {
 
     @PatchMapping(path="/logout")
     public User logout(@RequestBody User user){
-        //log.info(user.getId());
+        log.info(user.getId());
         return userService.logoutUser(user);
 
+    }
+
+
+    @PatchMapping(path = "/create/game")
+    public User createGame(@RequestBody User user){
+
+        return userRepository.save(user);
+    }
+
+    @PostMapping(path="sendRequest/{gameId}/{playerId}")
+    public Request sendRequest(@PathVariable String gameId, @PathVariable String playerId, @RequestBody Request request1){
+        Game game = gameService.findGameById(gameId);
+        Request request = new Request();
+        request.setRequestedGame(game);
+        Optional<User> user = userService.findById(playerId);
+        request.setPlayer(user.get());
+        request.setNote(request1.getNote());
+        return requestRepository.save(request);
+    }
+
+    @DeleteMapping(path = "delete/request/{requestId}")
+    public void deleteRequest(@PathVariable String requestId){
+        requestRepository.deleteById(requestId);
+    }
+
+
+    @PatchMapping(path = "/accept/request/{requestId}")
+    public Request acceptRequest(@PathVariable String requestId){
+        Request request = requestRepository.findRequestById(requestId);
+        request.setAccepted(true);
+        request.setInProgress(false);
+        return requestRepository.save(request);
+    }
+
+    @PatchMapping(path = "/refuse/request/{requestId}")
+    public Request refuseRequest(@PathVariable String requestId){
+        Request request = requestRepository.findRequestById(requestId);
+        request.setAccepted(false);
+        request.setInProgress(false);
+        request.setRefused(true);
+        return requestRepository.save(request);
     }
 
 
@@ -105,7 +154,7 @@ public class OrganizerController {
     //====================================== Game filters ==============================================================
 
 
-    @GetMapping(path="/Games/{category}")
+    @GetMapping(path="/games/{category}")
     public ResponseEntity<List<Game>> findGamesByCategory(@PathVariable Category category){
         List<Game> games = gameService.findGamesByCategory(category);
         if(games.isEmpty()){
@@ -134,14 +183,7 @@ public class OrganizerController {
     }
 
 
-    @PatchMapping(path = "/create/game")
-    public User createGame(@RequestBody User user){
-        Optional<User> user1 = userService.findById(user.getId());
-        if (user1.isEmpty()){
-            return null;
-        }
-        return userRepository.save(user);
-    }
+
 
 
     @DeleteMapping(path = "/delete/game/{id}")
@@ -185,6 +227,8 @@ public class OrganizerController {
         }
         return new ResponseEntity<List<Game>>(games,HttpStatusCode.valueOf(200));
     }
+
+
 
 
 }

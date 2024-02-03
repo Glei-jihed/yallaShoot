@@ -73,6 +73,18 @@ public class UserServiceImplementation implements UserService{
         return userRepository.save(user2.get());
     }
 
+    @Override
+    public User createGame(User user) {
+        Optional<User> userOptional = userRepository.findById(user.getId());
+        if(userOptional.isEmpty())
+        {
+            return null;
+
+        } else {
+            return userRepository.save(user);
+        }
+    }
+
 
     //=============== Filtres Admin ====================================================================================
 

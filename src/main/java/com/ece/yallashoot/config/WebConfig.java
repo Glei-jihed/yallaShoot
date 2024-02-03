@@ -18,4 +18,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedHeaders("Origin", "Content-Type", "Accept", "Authorization","Bearer Token")
                 .allowCredentials(true);
     }
+
+
+
 }
