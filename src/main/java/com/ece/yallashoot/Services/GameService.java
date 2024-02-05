@@ -12,15 +12,17 @@ import java.util.Optional;
 
 public interface GameService {
 
-    public List<Game> findAllGames();
+    List<Game> findAllGames();
 
-    public Game findGameById(String id);
+    Game findGameById(String id);
 
-    public List<Game> findGamesByCategory(Category category);
+    List<Game> findGameByCityAndCategory(String city, Category category);
 
-    public List<Game> findGamesByDate(Date date);
+    List<Game> findGamesByCategory(Category category);
 
-    public List<Game> findGameByDateAfter(Date date);
+    List<Game> findGamesByDate(Date date);
+
+    List<Game> findGameByDateAfter(Date date);
 
     List<Game> findByLatitudeAndLongitudeInterval(@Param("minLat") Double minLat, @Param("maxLat") Double maxLat,
                                                   @Param("minLon") Double minLon, @Param("maxLon") Double maxLon);

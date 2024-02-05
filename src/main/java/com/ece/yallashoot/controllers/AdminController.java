@@ -216,6 +216,30 @@ public class AdminController {
 
     /**
      * @author: Glei Jihed
+     * we use this endpoint to get the list of games by the city AND the category
+     * @param city we must give a valid city
+     * @param category we must give a valid category
+     * @return this endpoint will return a list of games that have the city and the category values
+     */
+    @GetMapping(path = "gamesBy/{city}/{category}")
+    public ResponseEntity<List<Game>> findGameByCityAndCategory(@PathVariable String city, @PathVariable Category category){
+        List<Game> games = gameService.findGameByCityAndCategory(city,category);
+        if (games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<>(games, HttpStatusCode.valueOf(200));
+
+    }
+
+
+
+
+
+
+
+
+    /**
+     * @author: Glei Jihed
      * we use this endpoint to get a specific game by the id
      * @param id we must give the game id
      * @return this end point will return a game or null
