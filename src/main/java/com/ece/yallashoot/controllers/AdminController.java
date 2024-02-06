@@ -192,8 +192,6 @@ public class AdminController {
 
 
 
-
-
     /**
      * @author: Glei Jihed
      * we use this endpoint to find the users with last name or last name like a string
@@ -234,10 +232,6 @@ public class AdminController {
 
 
 
-
-
-
-
     /**
      * @author: Glei Jihed
      * we use this endpoint to get a specific game by the id
@@ -249,6 +243,9 @@ public class AdminController {
         Optional<Game> game = Optional.ofNullable(gameService.findGameById(id));
         return game.orElse(null);
     }
+
+
+
 
     /**
      * @author: Glei Jihed
@@ -267,6 +264,10 @@ public class AdminController {
     }
 
 
+
+
+
+
     /**
      * @author: Glei Jihed
      * We use this endpoint to get the games  by the category
@@ -283,6 +284,10 @@ public class AdminController {
     }
 
 
+
+
+
+
     /**
      * @author: Glei Jihed
      * we use this endpoint to get the games by the Date
@@ -297,6 +302,9 @@ public class AdminController {
         }
         return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
+
+
+
 
 
     /**

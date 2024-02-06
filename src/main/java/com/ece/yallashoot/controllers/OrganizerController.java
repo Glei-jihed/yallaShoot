@@ -150,6 +150,8 @@ public class OrganizerController {
         requestRepository.deleteById(requestId);
     }
 
+
+
     /**
      * @author: Glei jihed
      * we use this endpoint to accept a join request
@@ -161,6 +163,9 @@ public class OrganizerController {
         Request request = requestRepository.findRequestById(requestId);
         request.setAccepted(true);
         request.setInProgress(false);
+        Game game = gameRepository.findGameByJoinRequestsId(requestId);
+        game.setRequiredPlayers(game.getRequiredPlayers()+1);
+        gameRepository.save(game);
         return requestRepository.save(request);
     }
 

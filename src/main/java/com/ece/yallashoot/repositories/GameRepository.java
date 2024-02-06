@@ -24,9 +24,13 @@ public interface GameRepository extends JpaRepository<Game,String> {
 
      List<Game> findGameByFounderId(String id);
 
+     Game findGameByJoinRequestsId(String id);
+
      List<Game> findGameByDateAfter(Date date);
 
      List<Game> findGameByCityAndCategory(String city,Category category);
+
+     List<Game> findGameByDateAfterAndRequiredPlayers(Date date, int requiredPlayers);
 
      List<Game> findGameByPostalCode(int postalCode);
 
