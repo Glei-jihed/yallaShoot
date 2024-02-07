@@ -54,6 +54,12 @@ public class GameServiceImplementation implements GameService{
     }
 
     @Override
+    public List<Game> findGameByDateAfterAndRequiredPlayersAfter(Date date, int requiredPlayers) {
+        return gameRepository.findGameByDateAfterAndRequiredPlayersAfter(date, requiredPlayers);
+    }
+
+
+    @Override
     public List<Game> findGameByDateAfter(Date date) {
         return gameRepository.findGameByDateAfter(date);
     }

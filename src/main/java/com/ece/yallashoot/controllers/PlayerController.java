@@ -152,6 +152,20 @@ public class PlayerController {
     }
 
 
+    /**
+     * @author: Glei Jihed
+     * we use this endpoint to get the principal list of games that have a date after today and required players bigger then 0
+     * @param date we must give a date
+     * @return this endpoint will return a list of games.
+     */
+    @GetMapping(path="/games/{date}")
+    public ResponseEntity<List<Game>> findGameByDateAfterAndRequiredPlayersAfter(@PathVariable Date date){
+        List<Game> games = gameService.findGameByDateAfterAndRequiredPlayersAfter(date, 0);
+        if(games.isEmpty()){
+            return new ResponseEntity<>(HttpStatusCode.valueOf(404));
+        }
+        return new ResponseEntity<>(games, HttpStatusCode.valueOf(200));
+    }
 
 
 

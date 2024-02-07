@@ -30,7 +30,7 @@ public interface GameRepository extends JpaRepository<Game,String> {
 
      List<Game> findGameByCityAndCategory(String city,Category category);
 
-     List<Game> findGameByDateAfterAndRequiredPlayers(Date date, int requiredPlayers);
+     List<Game> findGameByDateAfterAndRequiredPlayersAfter(Date date, int requiredPlayers);
 
      List<Game> findGameByPostalCode(int postalCode);
 

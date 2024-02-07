@@ -22,6 +22,8 @@ public interface GameService {
 
     List<Game> findGamesByDate(Date date);
 
+    List<Game> findGameByDateAfterAndRequiredPlayersAfter(Date date, int requiredPlayers);
+
     List<Game> findGameByDateAfter(Date date);
 
     List<Game> findByLatitudeAndLongitudeInterval(@Param("minLat") Double minLat, @Param("maxLat") Double maxLat,
