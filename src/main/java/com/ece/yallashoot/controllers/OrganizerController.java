@@ -103,13 +103,18 @@ public class OrganizerController {
     /**
      * @author: Glei jihed
      * we use this endpoint to create a new game
-     * @param user we will give the user data that contain the games data
-     * @return User this endpoint will return an updated user
+     * @param  game , we must  give all the details of the Object Game, and the current user ID
+     * @return User this endpoint will return a new Game
      */
-    @PatchMapping(path = "/create/game")
-    public User createGame(@RequestBody User user){
+    @PostMapping(path = "/create/game/{organizerId}")
+    public Game createGame(@RequestBody Game game, @PathVariable String organizerId){
+        Optional<User> user = userService.findById(organizerId);
+        if (user.isEmpty()){
+            return null;
+        }
+        game.setFounder(user.get());
+        return gameRepository.save(game);
 
-        return userRepository.save(user);
     }
 
 
