@@ -145,6 +145,8 @@ public class OrganizerController {
     }
 
 
+
+
     /**
      * @author: Glei Jihed
      * this endpoint will delete a request
@@ -173,6 +175,9 @@ public class OrganizerController {
         gameRepository.save(game);
         return requestRepository.save(request);
     }
+
+
+
 
 
     /**
@@ -235,11 +240,6 @@ public class OrganizerController {
 
 
 
-
-
-
-
-
     /**
      * @author: Glei Jihed
      * we use this endpoint to get the list of games by the city AND the category
@@ -278,6 +278,10 @@ public class OrganizerController {
         return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
+
+
+
+
     /**
      * @author: Glei Jihed
      * we use this endpoint to get a specific game by the id
@@ -289,6 +293,8 @@ public class OrganizerController {
         Optional<Game> game = Optional.ofNullable(gameService.findGameById(id));
         return game.orElse(null);
     }
+
+
 
 
 
@@ -307,6 +313,11 @@ public class OrganizerController {
         return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
 
+
+
+
+
+
     /**
      * @author: Glei Jihed
      * we use this endpoint to get the list of games organized after a specific date
@@ -321,6 +332,10 @@ public class OrganizerController {
         }
         return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
+
+
+
+
 
 
     /**
@@ -341,6 +356,11 @@ public class OrganizerController {
 
     }
 
+
+
+
+
+
     /**
      * @author: Glei jihed
      * we use this endpoint to get the list of games organized by a user
@@ -356,6 +376,10 @@ public class OrganizerController {
         return new ResponseEntity<>(myGames,HttpStatusCode.valueOf(200));
     }
 
+
+
+
+
     /**
      * @author: Glei jihed
      * we use this endpoint to get all the games in a specific city
@@ -370,6 +394,11 @@ public class OrganizerController {
         }
         return new ResponseEntity<>(games,HttpStatusCode.valueOf(200));
     }
+
+
+
+
+
 
     /**
      * @author: Glei jihed
@@ -387,7 +416,6 @@ public class OrganizerController {
     }
 
     //================================== Request get ===================================================================
-
     /**
      * @author: Glei Jihed
      * we use this end point to get all the request for a specific game
@@ -402,6 +430,9 @@ public class OrganizerController {
         }
         return new ResponseEntity<>(requests, HttpStatusCode.valueOf(200));
     }
+
+
+
 
 
     /**
