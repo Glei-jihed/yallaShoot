@@ -15,7 +15,7 @@ Ce projet présente les concepts suivants :
 Pour utiliser ce projet, suivez les étapes suivantes :
 
 1. Clonez ce dépôt en utilisant la commande suivante :
-   ### `git clone https://github.com/votre_utilisateur/yalla-shoot.git`
+   ### `git clone https://github.com/votre_utilisateur/yallaShoot.git`
 
 2. Assurez-vous d'avoir Docker installé sur votre machine.
 
