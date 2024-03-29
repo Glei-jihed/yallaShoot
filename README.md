@@ -1,4 +1,4 @@
-# Projet YallaShoot
+# Projet YallaShoot (master branch)
 # Getting Started with Docker
 
 Ce projet est une API pour une application permettant d'organiser des matchs de football, de tennis, de basket-ball ou de handball avec une localisation bien définie. Les utilisateurs peuvent rechercher et rejoindre des parties en fonction de leur emplacement. 
